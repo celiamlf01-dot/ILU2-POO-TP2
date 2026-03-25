@@ -43,9 +43,9 @@ public class BoundaryEmmenager {
 				}
 			} while (choixUtilisateur != 1 && choixUtilisateur != 2);
 		}
-	}
+	   }
 
-	private void emmenagerDruide(String nomVisiteur) {
+	 private void emmenagerDruide(String nomVisiteur) {
 
 	    System.out.println("Bienvenue druide " + nomVisiteur + ", quelle est votre force ?");
 	    int forceDruide = Clavier.entrerEntier("");
@@ -68,4 +68,4 @@ public class BoundaryEmmenager {
 	   
 	}
 	}
-}
+
