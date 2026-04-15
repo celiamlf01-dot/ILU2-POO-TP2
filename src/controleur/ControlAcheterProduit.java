@@ -1,4 +1,5 @@
 package controleur;
+
 import villagegaulois.*;
 import frontiere.Clavier;
 import personnages.Gaulois;
@@ -10,48 +11,55 @@ public class ControlAcheterProduit {
 	private ControlVerifierIdentite controlVerifierIdentite;
 
 	public ControlAcheterProduit(ControlVerifierIdentite controlVerifierIdentite,
-			ControlTrouverEtalVendeur controlTrouverEtalVendeur,
-			Village village) {
+			ControlTrouverEtalVendeur controlTrouverEtalVendeur, Village village) {
 		this.village = village;
 		this.controlVerifierIdentite = controlVerifierIdentite;
 		this.controlTrouverEtalVendeur = controlTrouverEtalVendeur;
 	}
 
-	public Gaulois[] vendeurProduit(String produit) {
-		return  village.rechercherVendeursProduit(produit);
+	public String[] vendeurProduit(String produit) {
+		Gaulois[] tabGaulois = village.rechercherVendeursProduit(produit);
+
+		if (tabGaulois == null || tabGaulois.length == 0) {
+			return null;
+		}
+
+		String[] noms = new String[tabGaulois.length];
+
+		for (int i = 0; i < tabGaulois.length; i++) {
+			noms[i] = tabGaulois[i].getNom();
+		}
+
+		return noms;
 	}
-	
+
 	public boolean verifierIdentiteAcheteur(String nomAcheteur) {
 		return controlVerifierIdentite.verifierIdentite(nomAcheteur);
 	}
 
-	public void acheterProduitVendeur(String nomAcheteur,String nomVendeur,String produit) {
+	public void acheterProduitVendeur(String nomAcheteur, String nomVendeur, String produit) {
 		StringBuilder qst = new StringBuilder();
-		qst.append(nomAcheteur+" se déplace jusqu'à l'étal du vendeur "+nomVendeur+"\n");
-		qst.append("Combien de "+produit+" voulez-vous acheter?\n");
+		qst.append(nomAcheteur + " se déplace jusqu'à l'étal du vendeur " + nomVendeur + "\n");
+		qst.append("Combien de " + produit + " voulez-vous acheter?\n");
 		int qte = Clavier.entrerEntier(qst.toString());
-		int nqteAchete=acheterProduit(nomVendeur,qte);
-		if (nqteAchete==0) {
-			System.out.println(nomAcheteur+" veut acheter "+qte+" "+produit+", malheureusement il n’y en a plus !");
+		int nqteAchete = acheterProduit(nomVendeur, qte);
+		if (nqteAchete == 0) {
+			System.out.println(
+					nomAcheteur + " veut acheter " + qte + " " + produit + ", malheureusement il n’y en a plus !");
+		} else if (nqteAchete < qte) {
+			System.out.println(nomAcheteur + " veut acheter " + qte + " " + produit + ",malheureusement " + nomVendeur
+					+ " n’en a plus que " + nqteAchete + ". ");
+			System.out.println(nomAcheteur + " achète tout le stock de " + nomVendeur + ".");
+		} else {
+			System.out.println(nomAcheteur + " achète " + qte + "  " + produit + " à " + nomVendeur);
+
 		}
-		else if (nqteAchete<qte) {
-			System.out.println(nomAcheteur+" veut acheter "+qte+" "+produit+",malheureusement "+ nomVendeur +" n’en a plus que "+nqteAchete+". ");
-			System.out.println(nomAcheteur+" achète tout le stock de "+nomVendeur + ".");
-		}
-		else {
-			System.out.println(nomAcheteur +" achète "+qte + "  "+produit+ " à "+nomVendeur);
-			
-		}
-		
-		
-		
+
 	}
-	
-	public int acheterProduit(String vendeur,int qte) {
-		Etal etal=controlTrouverEtalVendeur.trouverEtalVendeur(vendeur);
+
+	public int acheterProduit(String vendeur, int qte) {
+		Etal etal = controlTrouverEtalVendeur.trouverEtalVendeur(vendeur);
 		return etal.acheterProduit(qte);
 	}
-	//TODO a completer
 
-	
 }

@@ -70,7 +70,7 @@ public class TestControleursDesCas {
 		ControlPrendreEtal controlPrendreEtal = new ControlPrendreEtal(
 				controlVerifierIdentite, village);
 		int numeroEtal = controlPrendreEtal.prendreEtal("Obelix", "fleur", 5);
-		System.out.println("Obelix a pris l'étal n°" + numeroEtal);
+		System.out.println("Obelix a pris l'étal n° " + numeroEtal);
 
 //		Sortie Console :
 //		Cas 4 : Prendre etal
